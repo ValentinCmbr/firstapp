@@ -1,1 +1,1 @@
-# Premier tp réalisé par Valentin Combier, 3CSI
+# Premier tp de react native réalisé par Valentin Combier en 3CSI

@@ -3,27 +3,36 @@ import { ImageBackground, StyleSheet, FlatList, Button, Text, View, TextInput, T
 import React, {useState} from "react";
 import {Touchable} from "react-native-web";
 
-const SampleGoals= [
-    'Faire les courses',
-    'Aller à la salle de sport 3 fois par semaine',
-    'Monter à plus de 5000m d altitude',
-    'Acheter mon premier appartement',
-    'Perdre 5 kgs',
-    'Gagner en productivité',
-    'Apprendre un nouveau langage',
-    'Faire une mission en freelance',
-    'Organiser un meetup autour de la tech',
-    'Faire un triathlon'
-];
 
-const list = (List) => {
-    return List.map((Goal, index) => { return ( <View><Text key={index.toString()}>{Goal}</Text></View>);});
-}
 export default function App() {
+
+    const SampleGoals= [
+        'Faire les courses',
+        'Aller à la salle de sport 3 fois par semaine',
+        'Monter à plus de 5000m d altitude',
+        'Acheter mon premier appartement',
+        'Perdre 5 kgs',
+        'Gagner en productivité',
+        'Apprendre un nouveau langage',
+        'Faire une mission en freelance',
+        'Organiser un meetup autour de la tech',
+        'Faire un triathlon'
+    ];
+
+    const list = (List) => {
+        return List.map((Goal, index) => {
+            return (
+                <View><Text key={index}>{Goal}</Text><TouchableOpacity style={styles.button}
+                                                                       onPress={() =>SuppList(index)}><Text>Supprimer</Text></TouchableOpacity></View>);
+        });
+    }
 
     const [text, setText] = React.useState("");
     const[List, setListe] = React.useState(SampleGoals);
     const onPress = () => setListe([...List,text]);
+    const SuppList = (key) => setListe(List.filter((text) =>text.key));
+
+
   return (
     <View style={styles.container}>
         <ImageBackground source={require('./assets/bckg.jpg')} resizeMode="cover" style={styles.image}>
@@ -31,7 +40,6 @@ export default function App() {
       <Text style={styles.textUn}>test</Text>
       <Text>Open up <Text style={styles.textDeux}>App.js</Text> start working on your app!</Text>
             {list(List)}
-
         <View style={{flexDirection:'row'}}>
         <TextInput style={styles.input} placeholder="Votre texte ici" onChangeText={(value) => setText(value)}/>
         <TouchableOpacity style={styles.button} onPress={onPress}><Text>Add</Text></TouchableOpacity>
@@ -42,7 +50,6 @@ export default function App() {
     </View>
   );
 };
-
 
 
 const styles = StyleSheet.create({

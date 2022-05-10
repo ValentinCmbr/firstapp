@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, StyleSheet, FlatList, Button, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { ImageBackground, StyleSheet, FlatList, Button, Text, View, TextInput, TouchableOpacity, Modal } from 'react-native';
 import React, {useState} from "react";
 import {Touchable} from "react-native-web";
 
@@ -49,11 +49,15 @@ export default function App() {
 
     const [text, setText] = React.useState("");
     const[List, setListe] = React.useState(SampleGoals);
-    const onPress = () => setListe([...List,{id:List.length+1,title:text.toString()}]);
+    const onPressModal = () => setListe([...List,{id:List.length+1,title:text.toString()}], hideModal());
     const DeleteItem = (id)=> {
         const filtreListe = List.filter(item => item.id !== id);
         setListe(filtreListe);
     }
+    const [visible, setVisible] = React.useState(false);
+
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
 
   return (
     <View style={styles.container}>
@@ -68,9 +72,13 @@ export default function App() {
                 </View>
             </Text>}/>
         <View style={{flexDirection:'row'}}>
-        <TextInput style={styles.input} placeholder="Votre texte ici" onChangeText={(value) => setText(value)}/>
-        <TouchableOpacity style={styles.button} onPress={onPress}><Text>Add</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={showModal}><Text>Ajouter un objectif</Text></TouchableOpacity>
         </View>
+            <Modal animationtype="slide" style={styles.modalStyle} visible={visible} onDismiss={hideModal}>
+        <TextInput style={styles.input} placeholder="Votre texte ici" onChangeText={(value) => setText(value)}/>
+                <TouchableOpacity style={styles.buttonModal} onPress={onPressModal}><Text>Add</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.buttonModal} onPress={hideModal}><Text>Cancel</Text></TouchableOpacity>
+            </Modal>
 
       <StatusBar style="auto" />
         </ImageBackground>
@@ -111,6 +119,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
       backgroundColor:"#6495ed",
         padding:10,
+    },
+    modalStyle: {
+        backgroundColor: 'white',
+        padding: 20,
+        width:"50%",
+    },
+    buttonModal:{
+        alignItems: "center",
+        backgroundColor:"#6495ed",
+        padding:10,
+        marginTop:30,
+        width:"50%",
     }
 });
 
